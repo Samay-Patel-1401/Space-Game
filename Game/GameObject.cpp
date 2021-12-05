@@ -92,6 +92,21 @@ SDL_Rect GameObject::getdstRect()
 	return dstRect;
 }
 
+bool GameObject::destructionStatus()
+{
+	if (explosionSize > explosionSizeThresh and isDestroyed)
+		return true;
+	else if (dstRect.x < -dstRect.w or dstRect.x > 1000 or dstRect.y < -dstRect.h or dstRect.y > 750)
+		return true;
+	else
+		return false;
+}
+
+bool GameObject::status()
+{
+	return isDestroyed;
+}
+
 void GameObject::onExplosion()
 {
 	if (explosionSize <= explosionSizeThresh)

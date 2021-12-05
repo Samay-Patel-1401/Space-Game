@@ -19,6 +19,8 @@ User::~User()
 {
 	clean();
 	SDL_DestroyTexture(thrustTexture);
+	SDL_DestroyTexture(bulletTexture);
+	SDL_DestroyTexture(bulletBlastTexture);
 }
 
 void User::handleEvent()
@@ -58,7 +60,7 @@ void User::eventResponse()
 		velocity[1] += drag;
 
 	if (space and !isDestroyed)
-		shootBullet(bulletTexture, bulletBlastTexture, renderer, getdstRect(), 0, bulletSpeed);
+		shootBullet(bulletTexture, bulletBlastTexture, renderer, getdstRect().x + getdstRect().w/2, getdstRect().y, 0, bulletSpeed);
 
 	return;
 }

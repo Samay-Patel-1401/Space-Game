@@ -7,14 +7,6 @@ Bullet::Bullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Rende
 	delExplosion = 1;
 }
 
-bool Bullet::destructionStatus()
-{
-	if (explosionSize > explosionSizeThresh and isDestroyed)
-		return true;
-	else
-		return false;
-}
-
 void Bullet::destroy()
 {
 	isDestroyed = true;
@@ -28,7 +20,7 @@ Gun::Gun(const char* asset1Location, const char* asset2Location, SDL_Renderer* R
 	bulletBlastTexture = loadTexture(asset2Location, R);
 
 	bulletCooldownThresh = 60;
-	bulletSize = 7;
+	bulletSize = 8;
 	bulletCooldown = bulletCooldownThresh;
 }
 
@@ -42,17 +34,11 @@ Gun::Gun(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R
 	bulletCooldown = bulletCooldownThresh;
 }
 
-Gun::~Gun()
-{
-	SDL_DestroyTexture(bulletTexture);
-	SDL_DestroyTexture(bulletBlastTexture);
-}
-
-void Gun::shootBullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, SDL_Rect rect, int vx, int vy)
+void Gun::shootBullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int vx, int vy)
 {
 	if (bulletCooldown == bulletCooldownThresh)
 	{
-		Bullet B(asset1Texture, asset2Texture, R, rect.x + rect.w / 2, rect.y, bulletSize, bulletSize, vx, vy);
+		Bullet B(asset1Texture, asset2Texture, R, x - bulletSize / 2, y - bulletSize / 2, bulletSize, bulletSize, vx, vy);
 		bulletList.push_back(B);
 		bulletCooldown = 0;
 	}
@@ -66,7 +52,7 @@ void Gun::removeBullet()
 	{
 		SDL_Rect rect = bulletList[i].getdstRect();
 
-		if (rect.y < -10 or bulletList[i].destructionStatus())
+		if (bulletList[i].destructionStatus())
 		{
 			bulletList.erase(bulletList.begin() + i);
 			i--;

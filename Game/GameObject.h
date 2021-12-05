@@ -17,6 +17,8 @@ public :
 	SDL_Rect getdstRect();
 	void clean();
 	void onExplosion();
+	bool status();
+	bool destructionStatus();
 
 protected :
 

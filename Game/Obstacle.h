@@ -11,7 +11,6 @@ public :
 
 	Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
 
-	bool destructionStatus();
 	void destroy();
 };
 
@@ -21,7 +20,13 @@ public :
 
 	Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
 
+	void gunFire(SDL_Rect targetRect);
+	bool destructionStatus();
+	void destroy();
+
 private :
+
+	int bulletSpeed;
 };
 
 class Obstacle
@@ -35,19 +40,20 @@ public :
 
 	void generateObstacle();
 	void removeObstacle();
-	void renderObstacle();
-	void obstacle();
+	void renderObstacle(SDL_Rect userRect);
+	void obstacle(SDL_Rect userRect);
 
 private :
 
-	std::vector<Astroid> obsList;
+	std::vector<Astroid> astroidList;
+	std::vector<Enemy> enemyList;
+
 	int spawnAlert;
 	int obsSpeed;
 	const int spawnTime = 60;
 
 	std::vector<SDL_Texture*> obsTexture;
-	SDL_Texture* blastTexture;
-
+	std::vector<SDL_Texture*> blastTexture;
 	SDL_Renderer* renderer;
 };
 

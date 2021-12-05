@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 		SDL_RenderClear(game.getRenderer());
 
 		SDL_RenderCopy(game.getRenderer(), bgTexture, nullptr, nullptr);
-		obs.obstacle();
+		obs.obstacle(player.getdstRect());
 		player.objRender();
 
 		SDL_RenderPresent(game.getRenderer());

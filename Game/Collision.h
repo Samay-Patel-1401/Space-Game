@@ -11,8 +11,8 @@ public :
 
 	Collision(User* player, Obstacle* obs);
 
-	void userCollision();
-	void bulletCollision();
+	void user_obsCollision();
+	void bullet_obsCollision();
 	void checkCollision();
 
 private :

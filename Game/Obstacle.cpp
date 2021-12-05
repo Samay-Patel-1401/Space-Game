@@ -154,7 +154,7 @@ void Obstacle::renderObstacle(SDL_Rect userRect)
 	for (int i = 0; i < enemyList.size(); i++)
 	{
 		enemyList[i].objRender();
-		//enemyList[i].gunFire(userRect);
+		enemyList[i].gunFire(userRect);
 	}
 
 	return;

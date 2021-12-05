@@ -15,7 +15,7 @@ void Collision::user_obsCollision()
 
 		double dst = objDistance(playerRect, obsRect);
 
-		if ((dst < (playerRect.w/2 + obsRect.w/2 - 10)) and !(obs->astroidList[i].status()))
+		if ((dst < (playerRect.w/2 + obsRect.w/2 - 10)) and !(obs->astroidList[i].status()) and !(player->isDestroyed))
 		{
 			player->isDestroyed = true;
 			obs->astroidList[i].destroy();
@@ -29,7 +29,7 @@ void Collision::user_obsCollision()
 
 		double dst = objDistance(playerRect, obsRect);
 
-		if ((dst < (playerRect.w / 2 + obsRect.w / 2 - 10)) and !(obs->enemyList[i].status()))
+		if ((dst < (playerRect.w / 2 + obsRect.w / 2 - 10)) and !(obs->enemyList[i].status()) and !(player->isDestroyed))
 		{
 			player->isDestroyed = true;
 			obs->enemyList[i].destroy();
@@ -74,10 +74,34 @@ void Collision::bullet_obsCollision()
 	return;
 }
 
+void Collision::user_enemyBulletCollision(Enemy* E)
+{
+	SDL_Rect playerRect = player->getdstRect();
+
+	for (int i = 0; i < E->bulletList.size(); i++)
+	{
+		SDL_Rect enemyBulletRect = E->bulletList[i].getdstRect();
+
+		double dst = objDistance(playerRect, enemyBulletRect);
+		if ((dst < (enemyBulletRect.w / 2 + playerRect.w / 2 - 10)) and !(E->bulletList[i].status()) and !(player->isDestroyed))
+		{
+			player->isDestroyed = true;
+			E->bulletList[i].destroy();
+		}
+	}
+
+	return;
+}
+
 void Collision::checkCollision()
 {
 	user_obsCollision();
 	bullet_obsCollision();
+
+	for (int i = 0; i < obs->enemyList.size(); i++)
+	{
+		user_enemyBulletCollision(&(obs->enemyList[i]));
+	}
 
 	return;
 }

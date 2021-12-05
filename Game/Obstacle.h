@@ -16,6 +16,8 @@ public :
 
 class Enemy : public GameObject, public Gun
 {
+	friend class Collision;
+
 public :
 
 	Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);

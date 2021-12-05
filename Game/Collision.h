@@ -13,6 +13,7 @@ public :
 
 	void user_obsCollision();
 	void bullet_obsCollision();
+	void user_enemyBulletCollision(Enemy* E);
 	void checkCollision();
 
 private :

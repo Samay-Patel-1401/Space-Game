@@ -14,6 +14,7 @@ Game::~Game()
 
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	Mix_Quit();
 	SDL_Quit();
 
 	std::cout << "Game Cleaned...." << std::endl;
@@ -52,6 +53,14 @@ void Game::initWindow(const char* title, int xpos, int ypos, int width, int heig
 	{
 		std::cout << "SDL subsystem Error...." << SDL_GetError() << std::endl;
 	}
+
+	return;
+}
+
+void Game::initAudio()
+{
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		std::cout << Mix_GetError() << std::endl;
 
 	return;
 }

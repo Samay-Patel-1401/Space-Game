@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <SDL_mixer.h>
 #include "GameObject.h"
 #include "Additional.h"
 #include "Gun.h"
@@ -11,7 +12,7 @@ class User : public GameObject, public Gun
 
 public :
 
-	User(const char* asset1location, const char* asset2location, const char* asset3location, const char* asset4location, const char* asset5location, SDL_Renderer* R, int x, int y, int w, int h);
+	User(const char* asset1location, const char* asset2location, const char* asset3location, const char* asset4location, const char* asset5location, SDL_Renderer* R, int x, int y, int w, int h, const char* soundLocation, const char* sound2Location, const char* sound3Location);
 	~User();
 
 	void handleEvent();

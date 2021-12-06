@@ -3,13 +3,14 @@
 #include <SDL.h>
 #include <iostream>
 #include "Additional.h"
+#include <SDL_mixer.h>
 
 class GameObject
 {
 public :
 
-	GameObject(const char* assetLocation, const char* asset2Location, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
-	GameObject(SDL_Texture* objTexture, SDL_Texture* blastTexture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
+	GameObject(const char* assetLocation, const char* asset2Location, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, const char* soundLocation);
+	GameObject(SDL_Texture* objTexture, SDL_Texture* blastTexture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionEffect);
 	~GameObject();
 
 	void objRender();
@@ -32,10 +33,12 @@ protected :
 	SDL_Texture* objTexture;
 	SDL_Texture* blastTexture;
 	SDL_Renderer* renderer;
+	Mix_Chunk* explosionSound;
 
 private :
 
 	SDL_Rect dstRect;
 	float location[2];
+	bool soundFlag;
 };
 

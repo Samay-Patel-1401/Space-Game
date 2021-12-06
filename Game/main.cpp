@@ -11,10 +11,11 @@ int main(int argc, char* argv[])
 
 	Game game;
 	game.initWindow("The Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 750, false);
+	game.initAudio();
 
 	SDL_Texture* bgTexture = loadTexture("Assets/BG.png", game.getRenderer());
 
-	User player("Assets/ship_G.png", "Assets/effect_yellow.png", "Assets/explosion00.png", "Assets/bullet.png", "Assets/flash01.png", game.getRenderer(), 480, 600, 40, 40);
+	User player("Assets/ship_G.png", "Assets/effect_yellow.png", "Assets/explosion00.png", "Assets/bullet.png", "Assets/flash01.png", game.getRenderer(), 480, 600, 40, 40, "Assets/Sound/game_over.wav", "Assets/Sound/lowFrequency_explosion_001.wav", "Assets/Sound/laserSmall_000.wav");
 	Obstacle obs(game.getRenderer());
 	Collision collision(&player, &obs);
 

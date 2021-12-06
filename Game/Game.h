@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include "User.h"
 
 class Game
@@ -13,6 +14,7 @@ public :
 	~Game();
 
 	void initWindow(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+	void initAudio();
 	void handleEvent();
 	bool status();
 	SDL_Renderer* getRenderer();

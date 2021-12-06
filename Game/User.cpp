@@ -1,6 +1,6 @@
 #include "User.h"
 
-User::User(const char* asset1location, const char* asset2location, const char* asset3location, const char* asset4location, const char* asset5location, SDL_Renderer* R, int x, int y, int w, int h) : GameObject(asset1location, asset3location,R, x, y, w, h, 0, 0), Gun(asset4location, asset5location, R)
+User::User(const char* asset1location, const char* asset2location, const char* asset3location, const char* asset4location, const char* asset5location, SDL_Renderer* R, int x, int y, int w, int h, const char* sound1Location, const char* sound2Location, const char* sound3Location) : GameObject(asset1location, asset3location,R, x, y, w, h, 0, 0, sound1Location), Gun(asset4location, asset5location, R, sound2Location, sound3Location)
 {
 	thrustTexture = loadTexture(asset2location, R);
 	blastTexture = loadTexture(asset3location, R);
@@ -13,14 +13,15 @@ User::User(const char* asset1location, const char* asset2location, const char* a
 	delExplosion = 2;
 
 	bulletSpeed = -160;
+	bulletCooldownThresh = 10;
+	bulletCooldown = bulletCooldownThresh;
 }
 
 User::~User()
 {
 	clean();
+	cleanGun();
 	SDL_DestroyTexture(thrustTexture);
-	SDL_DestroyTexture(bulletTexture);
-	SDL_DestroyTexture(bulletBlastTexture);
 }
 
 void User::handleEvent()
@@ -60,7 +61,9 @@ void User::eventResponse()
 		velocity[1] += drag;
 
 	if (space and !isDestroyed)
-		shootBullet(bulletTexture, bulletBlastTexture, renderer, getdstRect().x + getdstRect().w/2, getdstRect().y, 0, bulletSpeed);
+	{
+		shootBullet(bulletTexture, bulletBlastTexture, renderer, getdstRect().x + getdstRect().w / 2, getdstRect().y, 0, bulletSpeed);
+	}
 
 	return;
 }

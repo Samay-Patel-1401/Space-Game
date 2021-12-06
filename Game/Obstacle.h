@@ -9,7 +9,7 @@ class Astroid : public GameObject
 {
 public :
 
-	Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
+	Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionSound);
 
 	void destroy();
 };
@@ -20,7 +20,7 @@ class Enemy : public GameObject, public Gun
 
 public :
 
-	Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy);
+	Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionSound, Mix_Chunk* bulletExplosionSound, Mix_Chunk* bulletFireSound);
 
 	void gunFire(SDL_Rect targetRect);
 	bool destructionStatus();
@@ -56,6 +56,7 @@ private :
 
 	std::vector<SDL_Texture*> obsTexture;
 	std::vector<SDL_Texture*> blastTexture;
+	std::vector<Mix_Chunk*> explosionSound;
 	SDL_Renderer* renderer;
 };
 

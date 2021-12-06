@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const char* assetLocation, const char* asset2Location, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy)
+GameObject::GameObject(const char* assetLocation, const char* asset2Location, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, const char* soundLocation)
 {
 	renderer = R;
 
@@ -24,10 +24,13 @@ GameObject::GameObject(const char* assetLocation, const char* asset2Location, SD
 
 	isDestroyed = false;
 
+	explosionSound = Mix_LoadWAV(soundLocation);
+	soundFlag = true;
+
 	std::cout << "Game Object Created...." << std::endl;
 }
 
-GameObject::GameObject(SDL_Texture* ObjTexture, SDL_Texture* BlastTexture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy)
+GameObject::GameObject(SDL_Texture* ObjTexture, SDL_Texture* BlastTexture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionEffect)
 {
 	objTexture = ObjTexture;
 	blastTexture = BlastTexture;
@@ -49,6 +52,9 @@ GameObject::GameObject(SDL_Texture* ObjTexture, SDL_Texture* BlastTexture, SDL_R
 	delExplosion = 2;
 
 	isDestroyed = false;
+
+	explosionSound = explosionEffect;
+	soundFlag = true;
 
 	std::cout << "Game Object Created...." << std::endl;
 }
@@ -83,6 +89,8 @@ void GameObject::clean()
 {
 	SDL_DestroyTexture(objTexture);
 	SDL_DestroyTexture(blastTexture);
+	Mix_HaltChannel(-1);
+	Mix_FreeChunk(explosionSound);
 
 	return;
 }
@@ -111,6 +119,12 @@ void GameObject::onExplosion()
 {
 	if (explosionSize <= explosionSizeThresh)
 	{
+		if (soundFlag)
+		{
+			soundFlag = false;
+			Mix_PlayChannel(-1, explosionSound, 0);
+		}
+
 		SDL_Rect Rect = getdstRect();
 		Rect.x += (Rect.w - explosionSize) / 2;
 		Rect.y += (Rect.h - explosionSize) / 2;

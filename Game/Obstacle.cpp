@@ -1,6 +1,6 @@
 #include "Obstacle.h"
 
-Astroid::Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy) : GameObject(asset1Texture, asset2Texture, R, x, y, w, h, vx, vy)
+Astroid::Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionSound) : GameObject(asset1Texture, asset2Texture, R, x, y, w, h, vx, vy, explosionSound)
 {
 	explosionSize = 50;
 	explosionSizeThresh = 80;
@@ -14,13 +14,14 @@ void Astroid::destroy()
 	return;
 }
 
-Enemy::Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy) : GameObject(asset1Texture, asset2Texture, R, x, y, w, h, vx, vy), Gun(asset3Texture, asset4Texture, R)
+Enemy::Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* enemyExplosionSound, Mix_Chunk* bulletExplosionSound, Mix_Chunk* bulletFireSound) : GameObject(asset1Texture, asset2Texture, R, x, y, w, h, vx, vy, enemyExplosionSound), Gun(asset3Texture, asset4Texture, R, bulletExplosionSound, bulletFireSound)
 {
 	explosionSize = 50;
 	explosionSizeThresh = 80;
 	delExplosion = 1;
 
 	bulletCooldownThresh = 180;
+	bulletCooldown = 150;
 	bulletSpeed = 50;
 }
 
@@ -68,6 +69,7 @@ Obstacle::Obstacle(SDL_Renderer* R)
 	blastTexture.push_back(loadTexture("Assets/whitePuff12.png", R));
 	blastTexture.push_back(loadTexture("Assets/explosion00.png", R));
 	blastTexture.push_back(loadTexture("Assets/flash01.png", R));
+
 	obsTexture.push_back(loadTexture("Assets/meteor_detailedSmall.png", R));
 	obsTexture.push_back(loadTexture("Assets/meteor_squareDetailedSmall.png", R));
 	obsTexture.push_back(loadTexture("Assets/meteor_large.png", R));
@@ -76,6 +78,11 @@ Obstacle::Obstacle(SDL_Renderer* R)
 	obsTexture.push_back(loadTexture("Assets/meteor_squareDetailedLarge.png", R));
 	obsTexture.push_back(loadTexture("Assets/station_C.png", R));
 	obsTexture.push_back(loadTexture("Assets/enemyBullet.png", R));
+
+	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/impactMetal_000.wav"));
+	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/explosion01.wav"));
+	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/lowFrequency_explosion_001.wav"));
+	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/laserSmall_004.wav"));
 }
 
 Obstacle::~Obstacle()
@@ -89,6 +96,12 @@ Obstacle::~Obstacle()
 	{
 		SDL_DestroyTexture(blastTexture[i]);
 	}	
+
+	Mix_HaltChannel(-1);
+	for (int i = 0; i < explosionSound.size(); i++)
+	{
+		Mix_FreeChunk(explosionSound[i]);
+	}
 }
 
 void Obstacle::generateObstacle()
@@ -100,14 +113,12 @@ void Obstacle::generateObstacle()
 		if (obs < 6)
 		{
 			int obsSize = 30 + (obs / 2) * 10;
-			Astroid A(obsTexture[obs], blastTexture[0], renderer, x, -obsSize, obsSize, obsSize, 0, obsSpeed);
+			Astroid A(obsTexture[obs], blastTexture[0], renderer, x, -obsSize, obsSize, obsSize, 0, obsSpeed, explosionSound[0]);
 			astroidList.push_back(A);
-
-			std::cout << astroidList.size() << std::endl;
 		}
 		else
 		{
-			Enemy E(obsTexture[6], blastTexture[1], obsTexture[7], blastTexture[2], renderer, x, -40, 40, 40, 0, obsSpeed);
+			Enemy E(obsTexture[6], blastTexture[1], obsTexture[7], blastTexture[2], renderer, x, -40, 40, 40, 0, obsSpeed, explosionSound[1], explosionSound[2], explosionSound[3]);
 			enemyList.push_back(E);
 		}
 

@@ -44,10 +44,14 @@ void Gun::shootBullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SD
 {
 	if (bulletCooldown == bulletCooldownThresh)
 	{
-		Mix_PlayChannel(-1, bulletFireSound, 0);
 		Bullet B(asset1Texture, asset2Texture, R, x - bulletSize / 2, y - bulletSize / 2, bulletSize, bulletSize, vx, vy, bulletExplosionSound);
-		bulletList.push_back(B);
-		bulletCooldown = 0;
+
+		if (!B.destructionStatus())
+		{
+			Mix_PlayChannel(-1, bulletFireSound, 0);
+			bulletList.push_back(B);
+			bulletCooldown = 0;
+		}
 	}
 
 	return;

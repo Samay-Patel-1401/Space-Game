@@ -13,8 +13,19 @@ User::User(const char* asset1location, const char* asset2location, const char* a
 	delExplosion = 2;
 
 	bulletSpeed = -160;
-	bulletCooldownThresh = 10;
+	bulletCooldownThresh = 5;
 	bulletCooldown = bulletCooldownThresh;
+	bulletListSize = bulletList.size();
+
+	gunEnergy = 20;
+	gunCooldown = 0;
+
+	char cooldownAssetLocation[31];
+	for (int i = 0; i < 21; i++)
+	{
+		sprintf_s(cooldownAssetLocation, "Assets/cooldown/cooldown%d.png", i);
+		cooldownTexture.push_back(loadTexture(cooldownAssetLocation, R));
+	}
 }
 
 User::~User()
@@ -22,6 +33,10 @@ User::~User()
 	clean();
 	cleanGun();
 	SDL_DestroyTexture(thrustTexture);
+	for (int i = 0; i < 21; i++)
+	{
+		SDL_DestroyTexture(cooldownTexture[i]);
+	}
 }
 
 void User::handleEvent()
@@ -60,9 +75,25 @@ void User::eventResponse()
 	else if (velocity[1] < 0)
 		velocity[1] += drag;
 
-	if (space and !isDestroyed)
+	if (space and !isDestroyed and (gunEnergy >= 2))
 	{
+		bulletListSize = bulletList.size();
+
 		shootBullet(bulletTexture, bulletBlastTexture, renderer, getdstRect().x + getdstRect().w / 2, getdstRect().y, 0, bulletSpeed);
+
+		if (bulletList.size() > bulletListSize)
+			gunEnergy -= delGunEnergy;
+	}
+	else
+	{
+		gunCooldown++;
+		if (gunCooldown == gunCooldownThresh)
+		{
+			gunCooldown = 0;
+
+			if(gunEnergy < 20)
+				gunEnergy++;
+		}
 	}
 
 	return;
@@ -85,6 +116,7 @@ void User::objRender()
 			dstRect->y -= 30;
 		}
 		SDL_RenderCopy(renderer, objTexture, nullptr, dstRect);
+		SDL_RenderCopy(renderer, cooldownTexture[gunEnergy], nullptr, &cooldownBarLocation);
 	}
 
 	removeBullet();

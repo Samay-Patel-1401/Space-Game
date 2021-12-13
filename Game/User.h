@@ -23,8 +23,14 @@ private :
 
 	const int delVelocity = 6;
 	const int  drag = 1;
+	const int delGunEnergy = 2;
+	const int gunCooldownThresh = 15;
+	const SDL_Rect cooldownBarLocation = { 20, 710, 43, 20 };
 
 	int bulletSpeed;
+	int bulletListSize;
+	int gunEnergy;
+	int gunCooldown;
 
 	bool W;
 	bool A;
@@ -33,5 +39,6 @@ private :
 	bool space;
 
 	SDL_Texture* thrustTexture;
+	std::vector<SDL_Texture*> cooldownTexture;
 };
 

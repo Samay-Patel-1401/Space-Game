@@ -10,8 +10,6 @@ class Astroid : public GameObject
 public :
 
 	Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionSound);
-
-	void destroy();
 };
 
 class Enemy : public GameObject, public Gun
@@ -24,7 +22,6 @@ public :
 
 	void gunFire(SDL_Rect targetRect);
 	bool destructionStatus();
-	void destroy();
 
 private :
 

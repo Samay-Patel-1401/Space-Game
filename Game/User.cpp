@@ -20,11 +20,20 @@ User::User(const char* asset1location, const char* asset2location, const char* a
 	gunEnergy = 20;
 	gunCooldown = 0;
 
-	char cooldownAssetLocation[31];
+	objStrength = 30;
+
+	char cooldownAssetLocation[44];
 	for (int i = 0; i < 21; i++)
 	{
-		sprintf_s(cooldownAssetLocation, "Assets/cooldown/cooldown%d.png", i);
+		sprintf_s(cooldownAssetLocation, "D:/Game/Game/Assets/cooldown/cooldown%d.png", i);
 		cooldownTexture.push_back(loadTexture(cooldownAssetLocation, R));
+	}
+
+	char objStrengthAssetLocation[31];
+	for (int i = 0; i < 4; i++)
+	{
+		sprintf_s(objStrengthAssetLocation, "D:/Game/Game/Assets/life%d.png", i);
+		objStrengthTexture.push_back(loadTexture(objStrengthAssetLocation, R));
 	}
 }
 
@@ -117,6 +126,7 @@ void User::objRender()
 		}
 		SDL_RenderCopy(renderer, objTexture, nullptr, dstRect);
 		SDL_RenderCopy(renderer, cooldownTexture[gunEnergy], nullptr, &cooldownBarLocation);
+		SDL_RenderCopy(renderer, objStrengthTexture[objStrength/delObjStrength], nullptr, &objStrengthBarLocation);
 	}
 
 	removeBullet();

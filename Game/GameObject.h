@@ -17,6 +17,7 @@ public :
 	SDL_Rect* updateGameObject();
 	SDL_Rect getdstRect();
 	void clean();
+	void onCollision();
 	void onExplosion();
 	bool status();
 	bool destructionStatus();
@@ -29,6 +30,8 @@ protected :
 	int explosionSize;
 	int delExplosion;
 	bool isDestroyed;
+	int objStrength;
+	int delObjStrength;
 
 	SDL_Texture* objTexture;
 	SDL_Texture* blastTexture;

@@ -7,13 +7,6 @@ Astroid::Astroid(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Ren
 	delExplosion = 1;
 }
 
-void Astroid::destroy()
-{
-	isDestroyed = true;
-
-	return;
-}
-
 Enemy::Enemy(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Texture* asset3Texture, SDL_Texture* asset4Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* enemyExplosionSound, Mix_Chunk* bulletExplosionSound, Mix_Chunk* bulletFireSound) : GameObject(asset1Texture, asset2Texture, R, x, y, w, h, vx, vy, enemyExplosionSound), Gun(asset3Texture, asset4Texture, R, bulletExplosionSound, bulletFireSound)
 {
 	explosionSize = 50;
@@ -52,37 +45,29 @@ bool Enemy::destructionStatus()
 		return false;
 }
 
-void Enemy::destroy()
-{
-	isDestroyed = true;
-
-	return;
-}
-
-
 Obstacle::Obstacle(SDL_Renderer* R)
 {
 	obsSpeed = 50;
 	renderer = R;
 	spawnAlert = 30;
 
-	blastTexture.push_back(loadTexture("Assets/whitePuff12.png", R));
-	blastTexture.push_back(loadTexture("Assets/explosion00.png", R));
-	blastTexture.push_back(loadTexture("Assets/flash01.png", R));
+	blastTexture.push_back(loadTexture("D:/Game/Game/Assets/whitePuff12.png", R));
+	blastTexture.push_back(loadTexture("D:/Game/Game/Assets/explosion00.png", R));
+	blastTexture.push_back(loadTexture("D:/Game/Game/Assets/flash01.png", R));
 
-	obsTexture.push_back(loadTexture("Assets/meteor_detailedSmall.png", R));
-	obsTexture.push_back(loadTexture("Assets/meteor_squareDetailedSmall.png", R));
-	obsTexture.push_back(loadTexture("Assets/meteor_large.png", R));
-	obsTexture.push_back(loadTexture("Assets/meteor_squareLarge.png", R));
-	obsTexture.push_back(loadTexture("Assets/meteor_detailedLarge.png", R));
-	obsTexture.push_back(loadTexture("Assets/meteor_squareDetailedLarge.png", R));
-	obsTexture.push_back(loadTexture("Assets/station_C.png", R));
-	obsTexture.push_back(loadTexture("Assets/enemyBullet.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_detailedSmall.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_squareDetailedSmall.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_large.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_squareLarge.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_detailedLarge.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/meteor_squareDetailedLarge.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/station_C.png", R));
+	obsTexture.push_back(loadTexture("D:/Game/Game/Assets/enemyBullet.png", R));
 
-	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/impactMetal_000.wav"));
-	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/explosion01.wav"));
-	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/lowFrequency_explosion_001.wav"));
-	explosionSound.push_back(Mix_LoadWAV("Assets/Sound/laserSmall_004.wav"));
+	explosionSound.push_back(Mix_LoadWAV("D:/Game/Game/Assets/Sound/impactMetal_000.wav"));
+	explosionSound.push_back(Mix_LoadWAV("D:/Game/Game/Assets/Sound/explosion01.wav"));
+	explosionSound.push_back(Mix_LoadWAV("D:/Game/Game/Assets/Sound/lowFrequency_explosion_001.wav"));
+	explosionSound.push_back(Mix_LoadWAV("D:/Game/Game/Assets/Sound/laserSmall_004.wav"));
 }
 
 Obstacle::~Obstacle()

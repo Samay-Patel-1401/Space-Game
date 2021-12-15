@@ -27,6 +27,9 @@ GameObject::GameObject(const char* assetLocation, const char* asset2Location, SD
 	explosionSound = Mix_LoadWAV(soundLocation);
 	soundFlag = true;
 
+	objStrength = 10;
+	delObjStrength = 10;
+
 	std::cout << "Game Object Created...." << std::endl;
 }
 
@@ -135,6 +138,15 @@ void GameObject::onExplosion()
 
 		explosionSize += delExplosion;
 	}
+
+	return;
+}
+
+void GameObject::onCollision()
+{
+	objStrength -= delObjStrength;
+	if (objStrength == 0)
+		isDestroyed = true;
 
 	return;
 }

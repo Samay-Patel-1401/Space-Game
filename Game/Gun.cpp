@@ -7,13 +7,6 @@ Bullet::Bullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Rende
 	delExplosion = 1;
 }
 
-void Bullet::destroy()
-{
-	isDestroyed = true;
-
-	return;
-}
-
 Gun::Gun(const char* asset1Location, const char* asset2Location, SDL_Renderer* R, const char* sound1Location, const char*sound2Location)
 {
 	bulletTexture = loadTexture(asset1Location, R);

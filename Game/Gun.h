@@ -8,8 +8,6 @@ class Bullet : public GameObject
 public :
 
 	Bullet(SDL_Texture* asset1Texture, SDL_Texture* asset2Texture, SDL_Renderer* R, int x, int y, int w, int h, int vx, int vy, Mix_Chunk* explosionEffect);
-
-	void destroy();
 };
 
 class Gun
